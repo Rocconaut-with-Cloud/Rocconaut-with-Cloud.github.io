@@ -26,19 +26,21 @@
     });
   });
 
-  // Diashow im iPhone
-  var slides = document.querySelectorAll('.screen img');
-  if (slides.length > 1 && !reduce) {
-    var idx = 0, paused = false;
-    var screen = document.querySelector('.screen');
-    screen.addEventListener('mouseenter', function () { paused = true; });
-    screen.addEventListener('mouseleave', function () { paused = false; });
-    setInterval(function () {
-      if (paused || document.hidden) return;
-      slides[idx].classList.remove('active');
-      idx = (idx + 1) % slides.length;
-      slides[idx].classList.add('active');
-    }, 3200);
+  // Diashow im iPhone (je App)
+  if (!reduce) {
+    document.querySelectorAll('.screen').forEach(function (screen) {
+      var slides = screen.querySelectorAll('img');
+      if (slides.length < 2) return;
+      var idx = 0, paused = false;
+      screen.addEventListener('mouseenter', function () { paused = true; });
+      screen.addEventListener('mouseleave', function () { paused = false; });
+      setInterval(function () {
+        if (paused || document.hidden) return;
+        slides[idx].classList.remove('active');
+        idx = (idx + 1) % slides.length;
+        slides[idx].classList.add('active');
+      }, 3200);
+    });
   }
 
   if (reduce) return;
@@ -76,7 +78,7 @@
   }
 
   // Scroll: Kompass verkleinert sich, iPhone dreht sich gerade
-  var device = document.querySelector('.device');
+  var devices = document.querySelectorAll('.device');
   var ticking = false;
   function onScroll() {
     if (ticking) return;
@@ -87,35 +89,37 @@
         var p = Math.min(1, Math.max(0, window.scrollY / 600));
         compass.style.setProperty('--sp', p.toFixed(3));
       }
-      if (device) {
+      var vh = window.innerHeight || 800;
+      devices.forEach(function (device) {
         var r = device.getBoundingClientRect();
-        var vh = window.innerHeight || 800;
         var dp = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.9)));
-        device.style.setProperty('--dy', (-24 * (1 - dp)).toFixed(2) + 'deg');
+        var dir = device.closest('.reverse') ? -1 : 1;
+        device.style.setProperty('--dy', (dir * -24 * (1 - dp)).toFixed(2) + 'deg');
         device.style.setProperty('--dx', (8 * (1 - dp)).toFixed(2) + 'deg');
-      }
+      });
     });
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  // App-Karte: 3D-Kippen mit Lichtreflex
-  var card = document.querySelector('.card');
-  if (card && canHover) {
-    card.addEventListener('mousemove', function (e) {
-      var r = card.getBoundingClientRect();
-      var px = (e.clientX - r.left) / r.width;
-      var py = (e.clientY - r.top) / r.height;
-      card.classList.add('hover');
-      card.style.setProperty('--ry', ((px - 0.5) * 8).toFixed(2) + 'deg');
-      card.style.setProperty('--rx', (-(py - 0.5) * 8).toFixed(2) + 'deg');
-      card.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
-      card.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
-    });
-    card.addEventListener('mouseleave', function () {
-      card.classList.remove('hover');
-      card.style.setProperty('--rx', '0deg');
-      card.style.setProperty('--ry', '0deg');
+  // App-Karten: 3D-Kippen mit Lichtreflex
+  if (canHover) {
+    document.querySelectorAll('.card').forEach(function (card) {
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var px = (e.clientX - r.left) / r.width;
+        var py = (e.clientY - r.top) / r.height;
+        card.classList.add('hover');
+        card.style.setProperty('--ry', ((px - 0.5) * 8).toFixed(2) + 'deg');
+        card.style.setProperty('--rx', (-(py - 0.5) * 8).toFixed(2) + 'deg');
+        card.style.setProperty('--gx', (px * 100).toFixed(1) + '%');
+        card.style.setProperty('--gy', (py * 100).toFixed(1) + '%');
+      });
+      card.addEventListener('mouseleave', function () {
+        card.classList.remove('hover');
+        card.style.setProperty('--rx', '0deg');
+        card.style.setProperty('--ry', '0deg');
+      });
     });
   }
 })();

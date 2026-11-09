@@ -83,6 +83,8 @@ img { max-width: 100%; }
   transition: transform 0.8s cubic-bezier(0.2,0.8,0.2,1);
 }
 .card.hover { transition: transform 0.1s ease-out; }
+.card.reverse { flex-direction: row-reverse; }
+#trail .screen { background: #000000; }
 .glare { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgba(255,255,255,0.35), rgba(255,255,255,0) 50%); opacity: 0; transition: opacity 0.4s ease; }
 .card.hover .glare { opacity: 1; }
 .card-text { flex: 1 1 340px; display: flex; flex-direction: column; gap: 20px; position: relative; }

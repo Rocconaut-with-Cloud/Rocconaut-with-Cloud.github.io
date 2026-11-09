@@ -7,6 +7,11 @@ Statische Website für GitHub Pages: https://rocconaut-with-cloud.github.io/
 - Support-URL: https://rocconaut-with-cloud.github.io/support.html
 - Englisch: https://rocconaut-with-cloud.github.io/en/malpuzzle/privacy.html und https://rocconaut-with-cloud.github.io/en/support.html
 
+## Trail-Analyzer
+- Datenschutz-URL: https://rocconaut-with-cloud.github.io/trail-analyzer/datenschutz.html
+- Support-URL: https://rocconaut-with-cloud.github.io/support.html
+- Englisch: https://rocconaut-with-cloud.github.io/en/trail-analyzer/privacy.html und https://rocconaut-with-cloud.github.io/en/support.html
+
 ## Noch offen
 - Impressum: USt-IdNr. ergänzen, sobald vorhanden
 
